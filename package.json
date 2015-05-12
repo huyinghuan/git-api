@@ -1,0 +1,9 @@
+{
+  "name": "gitlab-few",
+  "version": "0.0.1",
+  "main": "src/lib/index.coffee",
+  "dependencies": {
+    "q": "^1.4.0",
+    "request": "^2.55.0"
+  }
+}
