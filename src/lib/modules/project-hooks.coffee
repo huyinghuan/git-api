@@ -2,13 +2,13 @@
   Hooks设置
 ###
 class ProjectHooks
-  constructor: (@service, @projectId)->
-    @mainName = "projects/#{@projectId}/hooks"
+  constructor: (@service, mainName)->
+    @mainName = "#{mainName}/hooks"
 
   ###
    增加项目的hooks
   ###
   post: (hooks)->
-    @service(@mainName, {url: hooks, id: @projectId}, "POST")
+    @service(@mainName, {url: hooks}, "POST")
 
 module.exports = ProjectHooks

@@ -4,6 +4,8 @@
 
 ProjectHooks = require './project-hooks'
 Owned = require './owned'
+Commits = require './commits'
+Branches = require './branches'
 
 class Projects
   constructor: (@service, @id)->
@@ -13,10 +15,25 @@ class Projects
   post: (projects)->
     @service(@mainName, projects, 'POST')
 
-  hooks: -> new ProjectHooks(@service, @id)
+  hooks: -> new ProjectHooks(@service, "#{@mainName}/#{@id}")
 
-  owned: ()-> new Owned(@service, 'projects')
+  owned: ()-> new Owned(@service, @mainName)
 
+  commits: -> new Commits(@service, "#{@mainName}/#{@id}")
+
+  branches: -> new Branches(@service, "#{@mainName}/#{@id}")
+
+  ###
+   only for admin
+  ###
   all: -> @service("#{@mainName}/all")
+
+  ###
+    get projects of authenticated user.
+  ###
+  get: ->
+    return @service(@mainName) if not @id
+    return @service("#{@mainName}/#{@id}")
+
 
 module.exports = Projects

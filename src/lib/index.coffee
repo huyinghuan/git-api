@@ -27,15 +27,16 @@ class GitLabInterface
     (api, params = {}, method = 'GET')->
       deferred = _q.defer()
       uri = "#{API}/#{api}"
-      console.log "current: #{uri}"
       options =
         method: method
         uri: uri
         headers: "PRIVATE-TOKEN": token
-      console.log options
       if method isnt 'GET' or method isnt 'DELETE'
         options.json = true
         options.body = params
+
+      if method is 'GET'
+        options.qs = params
 
       _request options, (error, response, body)->
         if error or not (response.statusCode in [200, 201])

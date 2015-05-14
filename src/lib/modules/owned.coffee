@@ -11,7 +11,7 @@ class Owned
       return item for item in data when item.name is projectName
     )
 
-  all: ->
+  get: ->
     @service(@mainName)
 
 module.exports = Owned
