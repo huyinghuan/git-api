@@ -1,11 +1,12 @@
 ###
   项目相关
 ###
-
+_ = require 'lodash'
 ProjectHooks = require './project-hooks'
 Owned = require './owned'
 Commits = require './commits'
 Branches = require './branches'
+Base = require './base'
 
 class Projects
   constructor: (@service, @id)->
@@ -23,6 +24,9 @@ class Projects
 
   branches: -> new Branches(@service, "#{@mainName}/#{@id}")
 
+  fork: (project_id)->
+    @service("#{@mainName}/fork/#{project_id}", {},'POST')
+
   ###
    only for admin
   ###
@@ -31,8 +35,10 @@ class Projects
   ###
     get projects of authenticated user.
   ###
-  get: ->
-    return @service(@mainName) if not @id
+  get: (setting={})->
+    params = _.extend {}, @setting
+    params.per_page = setting.limit or 99
+    return @service(@mainName, params) if not @id
     return @service("#{@mainName}/#{@id}")
 
 

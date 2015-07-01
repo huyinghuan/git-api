@@ -1,6 +1,6 @@
 {
   "name": "gitlab-few",
-  "version": "0.0.3",
+  "version": "0.0.6",
   "main": "lib/index.js",
   "dependencies": {
     "lodash": "^3.8.0",
@@ -9,8 +9,10 @@
     "request": "^2.55.0"
   },
   "scripts": {
-    "pretest": "coffee --no-header -o ./ -c ./src/",
-    "test": "coffee src/test/project-test.coffee",
+    "test": "coffee --no-header -o ./ -c ./src/",
     "prepublish": "coffee --no-header -o ./ -c ./src/"
+  },
+  "devDependencies": {
+    "should": "^7.0.1"
   }
 }

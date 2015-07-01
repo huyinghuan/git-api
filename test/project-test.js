@@ -1,9 +1,11 @@
 (function() {
-  var GitLabInterface, getProjectsList, getProjectsSingle, gitlab, moment, testProjectBranches, testProjectCommits, testProjectOwned, token, url;
+  var GitLabInterface, assert, getProjectsList, getProjectsSingle, gitlab, moment, testProjectBranches, testProjectCommits, testProjectOwned, token, url;
 
   moment = require('moment');
 
   GitLabInterface = require('../lib/index');
+
+  assert = require('assert');
 
   url = 'http://git.hunantv.com/api/v3';
 
@@ -58,6 +60,25 @@
     });
   };
 
-  getProjectsSingle();
+  describe("Project", function() {
+    it("get project list", function(done) {
+      return gitlab.projects().get().then(function(data) {
+        data.map(function(item) {
+          return console.log(item.id, "" + (item.name_with_namespace.replace(/\s/g, "")));
+        });
+        return done();
+      });
+    });
+    return it.only("fork and set web hooks", function(done) {
+      return gitlab.projects().fork(677).then(function(data) {
+        return gitlab.projects(data.id).hooks().post("http://bho.hunantv.com");
+      }).then(function(data) {
+        console.log(data);
+        return done();
+      })["catch"](function(e) {
+        return console.log(e);
+      });
+    });
+  });
 
 }).call(this);
